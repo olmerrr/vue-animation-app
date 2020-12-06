@@ -3,12 +3,13 @@
     <div class="block" :class="{ animate: animatedBlock }"></div>
     <button @click="animateBlock">Animate</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
-    <p>This is a test dialog!</p>
-    <button @click="hideDialog">Close it!</button>
-  </base-modal>
+    <base-modal @close="hideDialog" :open="dialogIsVisible">
+      <p>This is a test dialog!</p>
+      <button @click="hideDialog">Close it!</button>
+    </base-modal>
+
   <div class="container">
-    <transition>
+    <transition name="paragraph">
       <p v-if="paragraphIsVisible">This is only sometimes visible..</p>
     </transition>
     <button @click="toggleParagraph">Toggle paragraph</button>
@@ -89,7 +90,7 @@ button:active {
 }
 .animate {
   /* transform: translateX(-50px); */
-  animation: slide-scale 0.3s ease-out forwards ;
+  animation: slide-scale 0.3s ease-out forwards;
 }
 .v-enter-from {
   /* opacity: 0;
@@ -97,8 +98,11 @@ button:active {
 }
 .v-enter-active {
   /* transition: all .5s ease-out; */
-  animation: slide-scale .3s ease-out;   
-
+  /* animation: slide-scale .3s ease-out;    */
+}
+.paragraph-enter-active {
+  /* transition: all .5s ease-out; */
+  animation: slide-scale 0.3s ease-out;
 }
 .v-enter-to {
   /* opacity: 1;
@@ -110,7 +114,11 @@ button:active {
 }
 .v-leave-active {
   /* transition: all .5s ease-in; */
-  animation: slide-scale .3s ease-in;   
+  /* animation: slide-scale .3s ease-in;    */
+}
+.paragraph-leave-active {
+  /* transition: all .5s ease-out; */
+  animation: slide-scale 0.3s ease-in;
 }
 .v-leave-to {
   /* opacity: 0;
