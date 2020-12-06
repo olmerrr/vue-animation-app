@@ -1,8 +1,10 @@
-import Vue from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
 
-Vue.config.productionTip = false
+import App from './App.vue';
+import BaseModal from './components/BaseModal.vue';
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+const app = createApp(App);
+
+app.component('base-modal', BaseModal);
+
+app.mount('#app');
