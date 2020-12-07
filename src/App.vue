@@ -10,16 +10,26 @@
 
   <div class="container">
     <div>
-      <transition name = "fade-button" mode="out-in">
+      <transition name="fade-button" mode="out-in">
         <button @click="showUser" v-if="!userIsVisible">Show Users</button>
         <button @click="hideUser" v-else-if="userIsVisible">Hide Users</button>
       </transition>
-        <p v-if="userIsVisible">user Anton</p>
+      <p v-if="userIsVisible">user Anton</p>
     </div>
   </div>
 
   <div class="container">
-    <transition name="paragraph">
+    <transition
+      name="paragraph"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
+    >
       <p v-if="paragraphIsVisible">This is only sometimes visible..</p>
     </transition>
     <button @click="toggleParagraph">Toggle paragraph</button>
@@ -37,6 +47,8 @@ export default {
       animatedBlock: false,
       paragraphIsVisible: false,
       userIsVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -57,6 +69,53 @@ export default {
     },
     hideUser() {
       this.userIsVisible = false;
+    },
+    beforeEnter(el) {
+      console.log('before-enter', el);
+      el.style.opacity = 0;
+    },
+    enter(el, done) {
+      console.log('enter', el);
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterEnter(el) {
+      console.log('Affter enter..', el);
+    },
+    beforeLeave(el) {
+      console.log('before-leave',el);
+      el.style.opacity = 1;
+    },
+
+    leave(el,done) {
+      console.log('leave...', el);
+      let round = 1;
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = 1 - round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterLeave() {
+      console.log('Affter leave ..');
+    },
+    enterCancelled(el) {
+        console.log('enterCancelled', el);
+        clearInterval(this.clearInterval);
+    },
+    leaveCancelled(el) {
+      console.log('leaveCancelled',el);
+      clearInterval(this.leaveInterval);
     },
   },
 };
@@ -112,9 +171,8 @@ button:active {
 .fade-button-enter-from,
 .fade-button-leave-to {
   opacity: 0;
-
 }
-.fade-button-enter-active{
+.fade-button-enter-active {
   transition: opacity 0.5s ease-out;
 }
 .fade-button-leave-active {
@@ -125,7 +183,6 @@ button:active {
   opacity: 1;
 }
 
-
 .v-enter-from {
   /* opacity: 0;
   transform: translateY(-50px); */
@@ -134,10 +191,10 @@ button:active {
   /* transition: all .5s ease-out; */
   /* animation: slide-scale .3s ease-out;    */
 }
-.paragraph-enter-active {
-  /* transition: all .5s ease-out; */
-  animation: slide-scale 0.3s ease-out;
-}
+/* .paragraph-enter-active { */
+/* transition: all .5s ease-out; */
+/* animation: slide-scale 2s ease-out; */
+/* } */
 .v-enter-to {
   /* opacity: 1;
   transform: translateY(0); */
@@ -150,10 +207,10 @@ button:active {
   /* transition: all .5s ease-in; */
   /* animation: slide-scale .3s ease-in;    */
 }
-.paragraph-leave-active {
-  /* transition: all .5s ease-out; */
-  animation: slide-scale 0.3s ease-in;
-}
+/* .paragraph-leave-active { */
+/* transition: all .5s ease-out; */
+/* animation: slide-scale 0.3s ease-in; */
+/* } */
 .v-leave-to {
   /* opacity: 0;
   transform: translateY(-40px); */
