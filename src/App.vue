@@ -17,12 +17,12 @@
       <p v-if="userIsVisible">user Anton</p>
     </div>
   </div>
-<!--  
+  <!--  
       :css="false"  - dont search css code, econom my resource
 -->
   <div class="container">
     <transition
-      :css="false" 
+      :css="false"
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
@@ -39,9 +39,16 @@
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
+
+  <div class="container">
+    <list-data></list-data>
+  </div>
 </template>  
 
 <script>
+
+import ListData from './components/ListData.vue';
+
 export default {
   data() {
     return {
@@ -52,6 +59,9 @@ export default {
       enterInterval: null,
       leaveInterval: null,
     };
+  },
+  components:{
+    ListData
   },
   methods: {
     showDialog() {
