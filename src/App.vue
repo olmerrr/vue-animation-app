@@ -17,10 +17,12 @@
       <p v-if="userIsVisible">user Anton</p>
     </div>
   </div>
-
+<!--  
+      :css="false"  - dont search css code, econom my resource
+-->
   <div class="container">
     <transition
-      name="paragraph"
+      :css="false" 
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
