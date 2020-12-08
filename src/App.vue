@@ -1,52 +1,12 @@
 <template>
-  <div class="container">
-      <users-list></users-list>
-  </div>
-  <div class="container">
-    <div class="block" :class="{ animate: animatedBlock }"></div>
-    <button @click="animateBlock">Animate</button>
-  </div>
-  <base-modal @close="hideDialog" :open="dialogIsVisible">
-    <p>This is a test dialog!</p>
-    <button @click="hideDialog">Close it!</button>
-  </base-modal>
-
-  <div class="container">
-    <div>
-      <transition name="fade-button" mode="out-in">
-        <button @click="showUser" v-if="!userIsVisible">Show Users</button>
-        <button @click="hideUser" v-else-if="userIsVisible">Hide Users</button>
-      </transition>
-      <p v-if="userIsVisible">user Anton</p>
-    </div>
-  </div>
-  <!--  
-      :css="false"  - dont search css code, econom my resource
--->
-  <div class="container">
-    <transition
-      :css="false"
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-      @before-leave="beforeLeave"
-      @leave="leave"
-      @after-leave="afterLeave"
-      @enter-cancelled="enterCancelled"
-      @leave-cancelled="leaveCancelled"
-    >
-      <p v-if="paragraphIsVisible">This is only sometimes visible..</p>
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in"> 
+      <component :is="slotProps.Component"></component>
     </transition>
-    <button @click="toggleParagraph">Toggle paragraph</button>
-  </div>
-  <div class="container">
-    <button @click="showDialog">Show Dialog</button>
-  </div>
+  </router-view>
 </template>  
 
 <script>
-import UsersList from './components/UsersList.vue';
-
 export default {
   data() {
     return {
@@ -57,9 +17,6 @@ export default {
       enterInterval: null,
       leaveInterval: null,
     };
-  },
-  components: {
-    UsersList,
   },
   methods: {
     showDialog() {
@@ -192,39 +149,53 @@ button:active {
 .fade-button-leave-from {
   opacity: 1;
 }
+.route-enter-from,
+.route-leave-to {
+  animation: slide-scale 0.4s ease;
+}
+.route-enter-active {
+  transition: opacity 0.4s ease-out;
+}
+.route-leave-active {
+  transition: opacity 0.4s ease-in;
+}
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+}
 
-.v-enter-from {
-  /* opacity: 0;
+/* .v-enter-from { */
+/* opacity: 0;
   transform: translateY(-50px); */
-}
-.v-enter-active {
-  /* transition: all .5s ease-out; */
-  /* animation: slide-scale .3s ease-out;    */
-}
+/* } */
+/* .v-enter-active { */
+/* transition: all .5s ease-out; */
+/* animation: slide-scale .3s ease-out;    */
+/* } */
 /* .paragraph-enter-active { */
 /* transition: all .5s ease-out; */
 /* animation: slide-scale 2s ease-out; */
 /* } */
-.v-enter-to {
-  /* opacity: 1;
+/* .v-enter-to { */
+/* opacity: 1;
   transform: translateY(0); */
-}
-.v-leave-from {
-  /* opacity: 1;
+/* } */
+/* .v-leave-from { */
+/* opacity: 1;
   transform: translateY(0); */
-}
-.v-leave-active {
-  /* transition: all .5s ease-in; */
-  /* animation: slide-scale .3s ease-in;    */
-}
+/* } */
+/* .v-leave-active { */
+/* transition: all .5s ease-in; */
+/* animation: slide-scale .3s ease-in;    */
+/* } */
 /* .paragraph-leave-active { */
 /* transition: all .5s ease-out; */
 /* animation: slide-scale 0.3s ease-in; */
 /* } */
-.v-leave-to {
-  /* opacity: 0;
+/* .v-leave-to { */
+/* opacity: 0;
   transform: translateY(-40px); */
-}
+/* } */
 @keyframes slide-scale {
   0% {
     transform: translateX(0) scale(1);
