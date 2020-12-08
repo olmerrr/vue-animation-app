@@ -58,7 +58,11 @@ input {
     opacity: 1;
   transform: translateX(0);
 }
-.user-list-leave-active{
+.user-list-leave-active {
+  /* position: absolute; */
   transition: all 1s ease-in;
+}
+.user-list-move {
+  transition: transform 0.8s ease;
 }
 </style>
