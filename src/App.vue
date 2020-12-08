@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+      <users-list></users-list>
+  </div>
+  <div class="container">
     <div class="block" :class="{ animate: animatedBlock }"></div>
     <button @click="animateBlock">Animate</button>
   </div>
@@ -39,15 +42,10 @@
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
-
-  <div class="container">
-    <list-data></list-data>
-  </div>
 </template>  
 
 <script>
-
-import ListData from './components/ListData.vue';
+import UsersList from './components/UsersList.vue';
 
 export default {
   data() {
@@ -60,8 +58,8 @@ export default {
       leaveInterval: null,
     };
   },
-  components:{
-    ListData
+  components: {
+    UsersList,
   },
   methods: {
     showDialog() {
@@ -102,11 +100,11 @@ export default {
       console.log('Affter enter..', el);
     },
     beforeLeave(el) {
-      console.log('before-leave',el);
+      console.log('before-leave', el);
       el.style.opacity = 1;
     },
 
-    leave(el,done) {
+    leave(el, done) {
       console.log('leave...', el);
       let round = 1;
       this.leaveInterval = setInterval(() => {
@@ -122,11 +120,11 @@ export default {
       console.log('Affter leave ..');
     },
     enterCancelled(el) {
-        console.log('enterCancelled', el);
-        clearInterval(this.clearInterval);
+      console.log('enterCancelled', el);
+      clearInterval(this.clearInterval);
     },
     leaveCancelled(el) {
-      console.log('leaveCancelled',el);
+      console.log('leaveCancelled', el);
       clearInterval(this.leaveInterval);
     },
   },
